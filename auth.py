@@ -12,6 +12,7 @@
 import random
 import validation
 import database
+import login
 from getpass import getpass
 
 
@@ -107,7 +108,16 @@ def operations(user):
         operations(user)
 
 
-def withdrawal():
+def withdrawal(user_details):
+    get_account_balance = str.split(user_details, ','[4])
+    print('Your current balance is ', get_account_balance)
+    amount = float(input("How much would you like to withdraw?"))
+    if get_account_balance >= amount:
+        get_account_balance -= amount
+        print("\n You withdrew:", amount)
+        print('\n Your current balance is', get_account_balance)
+    else:
+        print('\n insufficient balance ')
     print('Withdrawal')
     # get current balance
     # get amount to withdraw
@@ -116,8 +126,17 @@ def withdrawal():
     # display current balance
 
 
-def deposit():
-    print('Deposit')
+def deposit(user_details):
+    balance = user_details[4]
+    user_details = (database.read(balance))
+    get_account_balance = str.split(user_details, ','[4])
+    amount = float(input("\n How much would you like to deposit?"))
+    current_user_balance = get_account_balance + amount
+    print('\n amount deposited:', amount)
+    print('\n Your current balance is:', current_user_balance)
+
+    user_details[4] = current_user_balance
+
     # get current balance
     # get amount to deposit
     # add deposited amount to current balance
@@ -128,8 +147,12 @@ def generate_account_number():
     return random.randrange(111111, 999999)
 
 
-def get_account_balance(user_details, balance):
+def set_current_balance(user_details, balance):
     user_details[4] = balance
+
+
+def get_current_balance(user_details):
+    return user_details[4]
 
 
 def logout():

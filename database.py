@@ -20,7 +20,7 @@ def create(user_account_number, first_name, last_name, email, password):
         print('User already exists')
         return False
 
-        completion_state = False
+    completion_state = False
 
     try:
 
@@ -38,13 +38,13 @@ def create(user_account_number, first_name, last_name, email, password):
     # delete(account_number)
 
     else:
-        f.write(str(user_data));
+        f.write(str(user_data))
         completion_state = True
 
     finally:
 
-        f.close();
-    return completion_state
+        f.close()
+        return completion_state
 
     # create a file - account_number.txt
     # add the user details to the file
@@ -59,7 +59,7 @@ def read(user_account_number):
 
     try:
 
-        if user_account_number:
+        if is_valid_account_number:
             f = open(user_db_path + str(user_account_number) + ".txt", "r")
         else:
             f = open(user_db_path + user_account_number, "r")
@@ -129,6 +129,11 @@ def authenticated_user(account_number, password):
         if password == user[3]:
             return user
     return False
+
+
+def get_account_balance(user_details, balance):
+    user_details[4] = balance
+
 
 # print(does_email_exist('woneata@gmail.com'))
 # print(read(371976))
