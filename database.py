@@ -9,6 +9,7 @@ import os
 import validation
 
 user_db_path = 'data/user_record/'
+auth_db_path = 'data/auth_session'
 
 
 def create(user_account_number, first_name, last_name, email, password):
@@ -134,6 +135,17 @@ def authenticated_user(account_number, password):
 def get_account_balance(user_details, balance):
     user_details[4] = balance
 
+
+def logins(account_number):
+    is_delete_successful = False
+    if os.path.exists(auth_db_path + str(account_number) + ".txt"):
+        try:
+            os.remove(auth_db_path + str(account_number) + ".txt")
+            is_delete_successful = True
+        except FileNotFoundError:
+            print("user not found")
+        finally:
+            return is_delete_successful
 
 # print(does_email_exist('woneata@gmail.com'))
 # print(read(371976))
