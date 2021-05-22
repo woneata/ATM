@@ -39,7 +39,8 @@ def init():
 
 def login():
     print('******* Login *******')
-
+    
+    global account_number_from_user
     account_number_from_user = input("What is your account number? \n")
 
     is_valid_account_number = validation.account_number_validation(account_number_from_user)
@@ -126,16 +127,25 @@ def withdrawal(user_details):
     # display current balance
 
 
-def deposit(user_details):
-    balance = user_details[4]
-    user_details = (database.read(balance))
-    get_account_balance = str.split(user_details, ','[4])
-    amount = float(input("\n How much would you like to deposit?"))
-    current_user_balance = get_account_balance + amount
-    print('\n amount deposited:', amount)
-    print('\n Your current balance is:', current_user_balance)
+def deposit(user):
+    #balance = user_details[4]
+    # user_details = (database.read(balance))
+    # get_account_balance = str.split(user_details, ','[4])
+    # amount = float(input("\n How much would you like to deposit?"))
+    # current_user_balance = get_account_balance + amount
+    current_balance = int(get_current_balance(user))
+    amount_to_desposit = int(input("How much would you like to deposit? "))
+    current_balance += amount_to_desposit
+    set_current_balance(user, str(current_balance))
 
-    user_details[4] = current_user_balance
+    if database.update(account_number_from_user):
+        print("Your account balance is {}".format(current_balance))
+        operations(user)
+    else: 
+        print("Transaction not successful")
+        operations(user)
+
+    # user_details[4] = current_user_balance
 
     # get current balance
     # get amount to deposit
