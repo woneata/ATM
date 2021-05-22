@@ -9,7 +9,7 @@ import os
 import validation
 
 user_db_path = 'data/user_record/'
-auth_session_path = 'data/auth_session'
+auth_session_path = 'data/auth_session/'
 
 
 def create(user_account_number, first_name, last_name, email, password):
