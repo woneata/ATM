@@ -9,7 +9,7 @@ import os
 import validation
 
 user_db_path = 'data/user_record/'
-auth_db_path = 'data/auth_session'
+auth_session_path = 'data/auth_session'
 
 
 def create(user_account_number, first_name, last_name, email, password):
@@ -79,8 +79,16 @@ def read(user_account_number):
     return False
 
 
-def update(user_account_number):
-    print('update user record')
+def update(user_account_number, user_details):
+
+    user = user_details[0] + "," + user_details[1] + "," + user_details[3] + "," + user_details[4]
+    try: 
+        f = open(user_db_path + str(user_account_number) + ".txt", "w")
+        f.write(user)
+        return True
+    except:
+        return False 
+    
     # find user with account number
     # fetch the contents of the file
     # update the contents of the file
@@ -132,15 +140,32 @@ def authenticated_user(account_number, password):
     return False
 
 
+def login_auth_sesson(account_number, user_details):
+    data = user_details[0] + " " + user_details[1] + "logged in."
+
+    try: 
+        f = open(auth_session_path + str(account_number) + ".txt", "x")
+
+    except FileExistsError:
+        f = open(auth_session_path + str(account_number) + ".txt", "w")
+
+    else: 
+        f.write(data)
+
+    finally:
+        f.close()
+
+    return True
+
 def get_account_balance(user_details, balance):
     user_details[4] = balance
 
 
 def logins(account_number):
     is_delete_successful = False
-    if os.path.exists(auth_db_path + str(account_number) + ".txt"):
+    if os.path.exists(auth_session_path + str(account_number) + ".txt"):
         try:
-            os.remove(auth_db_path + str(account_number) + ".txt")
+            os.remove(auth_session_path + str(account_number) + ".txt")
             is_delete_successful = True
         except FileNotFoundError:
             print("user not found")
